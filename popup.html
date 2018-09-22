@@ -1,0 +1,37 @@
+
+<canvas id="myCanvas"
+onmousedown="startDraw(event.clientX,event.clientY)"
+onmousemove="draw(event.clientX,event.clientY)"
+onmouseup="endDraw()"
+onmouseout="endDraw()"
+onmousewheel="zoom(event)"></canvas>
+<br>
+<button id="clearButton" onclick="clearDraw()">clear</button>
+<script>
+  const $ = require("jquery");
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  var mDown = false;
+  function startDraw(x,y) {
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    mDown = true;
+  }
+  function draw(x,y) {
+    if (mDown) {
+      ctx.lineTo(x,y);
+      console.log("%d,%d",x,y);
+      ctx.stroke();
+    }
+  }
+  function endDraw() {
+    ctx.closePath();
+    mDown = false;
+  }
+  function clearDraw() {
+    ctx.clearRect(0,0,c.width,c.height);
+  }
+  function zoom(event) {
+    console.log(event.deltaY);
+  }
+</script>

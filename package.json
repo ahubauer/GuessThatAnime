@@ -1,0 +1,19 @@
+{
+  "name": "guessthatanime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Aaron Hubauer",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^2.0.8"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "mysql": "^2.16.0",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master"
+  }
+}

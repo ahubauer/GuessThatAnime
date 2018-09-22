@@ -1,0 +1,467 @@
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    text-align: center;
+    background: #CCC;
+    font-size: 1em;
+}
+
+.no_center {
+    text-align: left;
+}
+
+h1 {
+    text-align: center;
+}
+
+a {
+    color: #008;
+}
+
+img {
+    border: 0;
+}
+
+.panel {
+    background: #BDF;
+}
+
+/* Some others */
+
+form {
+    background: #BDF;
+}
+
+table {
+    background: #BDF;
+    border-collapse: collapse;
+}
+
+/* Simple small forms, like login and signup. */
+.simple {
+    border: 1px dotted #008;
+    width: 15em;
+    margin: auto;
+    background: #BDF;
+}
+
+/* Edit forms. */
+form.item_edit {
+    background: inherit;
+}
+
+/* New forms. */
+form.item_new {
+    margin: 0;
+    border-left: 1px dotted #008;
+    border-right: 1px dotted #008;
+}
+
+/* Error messages. */
+.error {
+    color: #F90;
+    background: #48B;
+    border-bottom: 1px dotted #008;
+    width: 100%;
+    padding: 0.5em 0;
+}
+
+/* Notice messages. */
+.notice {
+    color: #9E9;
+    background: #48B;
+    border-bottom: 1px dotted #008;
+    width: 100%;
+    padding: 0.5em 0;
+}
+
+/* Box elements that aren't embedded in the main form or list. */
+.non_form {
+    border: 1px dotted #008;
+    margin-bottom: 1em;
+}
+
+.non_form.error {
+    color: #C00;
+    background: #999;
+    padding: 0;
+}
+
+.non_form.notice {
+    color: #060;
+    background: #999;
+    padding: 0;
+}
+
+.non_form.error ul {
+    text-align: left;
+}
+
+/* Lists are covered by this. */
+.list {
+    margin: auto;
+    width: 90%;
+    border: 1px solid #008;
+}
+
+.list thead {
+    background: #48B;
+    border-bottom: 1px solid #008;
+}
+
+.list tbody td {
+    border-right: 1px solid #008;
+    border-bottom: 1px dotted #008;
+}
+
+.list .action_cell {
+    border-right: 0;
+    padding: 0;
+}
+
+.list .text {
+    text-align: left;
+    padding: 0 0.25em;
+}
+
+/* And individual details/edit pages. */
+.item {
+    margin: auto;
+    width: 50%;
+    border: 1px solid #008;
+}
+
+.item th {
+    background: #48B;
+    border-right: 1px solid #008;
+    padding: 0.25em;
+}
+
+.item td {
+    text-align: left;
+    padding: 0.25em;
+}
+
+.item #error {
+    text-align: center;
+}
+
+.item #notice {
+    text-align: center;
+}
+
+.item ul {
+    margin: 0;
+}
+
+td.note_cell, th.note_cell {
+    background: #48B;
+    border-top: 1px solid #008;
+    border-bottom: 1px solid #008;
+    text-align: center;
+}
+
+td.submit_cell, div.submit_cell {
+    background: #48B;
+    border-top: 1px solid #008;
+    text-align: center;
+}
+
+/* Here's the login info */
+#user-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5em;
+    text-align: right;
+    background: #48B;
+    border-bottom: 1px dashed #008;
+    border-left: 1px dashed #008;
+}
+
+#play_nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5em;
+    text-align: left;
+    background: #48B;
+    border-bottom: 1px solid #008;
+    border-right: 1px solid #008;
+}
+
+#manage_nav {
+    margin-top: 1em;
+}
+
+.disclosure_image {
+    vertical-align: middle;
+}
+
+#main_footer {
+    font-size: 0.65em;
+}
+
+.pending_approval {
+    background: #FCC;
+}
+
+span.pending_approval {
+    background: inherit;
+    color: #C00;
+    font-weight: bold;
+}
+
+.pending_changes {
+    background: #FFC;
+}
+
+span.pending_changes {
+    background: inherit;
+    color: #CC0;
+    font-weight: bold;
+}
+
+.approved {
+    background: #CFC;
+}
+
+span.approved {
+    background: inherit;
+    color: #0C0;
+    font-weight: bold;
+}
+
+/* Stuff for submission pages. */
+.formtable {
+    margin: auto;
+    text-align: left;
+}
+
+.formtable th {
+    padding-right: 0.5em;
+}
+
+.required {
+    color: #F00;
+}
+
+.nav {
+    border: 1px dotted #008;
+    background: #BDF;
+}
+
+.nav table {
+    margin: auto;
+    height: inherit;
+    border-collapse: collapse;
+}
+
+.nav td {
+    padding: 0.4em;
+    background: #BDF;
+    font-size: 0.75em;
+}
+
+.nav .currentpage {
+    font-size: 1em;
+    font-weight: bold;
+    background: #69E;
+}
+
+.create.error, .create.notice {
+    background: #48B;
+    border-left: 1px dotted #008;
+    border-right: 1px dotted #008;
+    padding: 0.5em;
+    width: auto;
+}
+
+.create.error ul {
+    text-align: left;
+    margin: 0;
+}
+
+.create h2 {
+    margin: 0;
+}
+
+.approval_button {
+    border: 1px solid #008;
+    background: #69E;
+    padding: 0.25em;
+    text-decoration: none;
+    font-size: 0.75em;
+}
+
+/*
+.pending_changes_list {
+    font-size: 0.75em;
+}
+*/
+
+.item th.fullwidth,td.fullwidth {
+    border-top: 1px solid #008;
+    border-bottom: 1px solid #008;
+}
+
+.comments {
+    list-style: none;
+    padding-left: 1em;
+}
+
+.comment {
+    border: 1px solid #008;
+    background: #48B;
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+.comment .type {
+    float: left;
+    font-size: 0.75em;
+}
+
+.comment .time {
+    float: right;
+    font-size: 0.75em;
+}
+
+.comment .text {
+    clear: both;
+}
+
+.comment .links {
+    float: left;
+    font-size: 0.75em;
+}
+
+.comment .author {
+    text-align: right;
+    font-size: 0.75em;
+}
+
+#comment_form,.comment_form {
+    border: 1px solid #008;
+    background: #69E;
+    margin: 0.5em;
+    padding: 0.5em;
+    font-size: 0.75em;
+}
+
+#comment_message {
+    vertical-align: top;
+}
+
+#comment_0 {
+    text-align: center;
+}
+
+.help_text {
+    font-size: 0.75em;
+    text-align: center;
+}
+
+th, .th {
+    font-weight: bold;
+}
+
+.file_info {
+    font-size: 0.75em;
+}
+
+#scene_window {
+    border: 1px solid #008;
+    margin: auto;
+    width: 306px;
+}
+
+#scene_window td {
+    width: 100px;
+}
+
+#scene_window td.series_name {
+    font-size: 0.75em;
+    background: #69E;
+}
+
+#hider {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: #CCC;
+    z-index: 10;
+}
+
+#name_that_image {
+    cursor: move;
+}
+
+.center {
+    text-align: center;
+}
+
+#question_window ul {
+    list-style-type: none;
+}
+
+#question_window ul li {
+    width: 700px;
+    margin: 10px auto;
+    border: 1px solid #008;
+}
+
+#question_window ul li p {
+    padding: 5px 5px 5px 15px;
+    background: #48B;
+    margin: 0px;
+    text-align: left;
+}
+
+#question_window .toggle {
+    float: right;
+}
+
+#question_window .question {
+    border-top: 1px solid #008;
+}
+
+#question_window .question p {
+    margin: 0px;
+    background: #BDF;
+    padding: 5px;
+}
+
+#question_window .question_done {
+    float: right;
+}
+
+.list th img {
+    vertical-align: middle;
+}
+
+.list th a {
+    text-decoration: none;
+}
+
+#play_nav form {
+    background: inherit;
+}
+
+canvas {
+    z-index: 1;
+}
+
+.note_cell p {
+    margin: 5px;
+}
+
+.note_cell .active img {
+    border: 1px solid #008;
+    background: #BDF;
+}
