@@ -2,27 +2,18 @@ const {remote, app, BrowserWindow} = require('electron');
 const fs = require('fs');
 const request = require('request');
 const $ = require('jquery');
-const mysql = require('mysql');
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose();
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
   let win
 
-  // const con = mysql.createConnection({
-  //   host: "127.0.0.1",
-  //   user: "root",
-  //   password: "",
-  //   database: "gtaSchema"
-  // });
-
-  // function shuffleScenes() {
-  //   fs.readFile('injector.js', 'utf8', function(err, data) {
-  //     if (err) throw err;
-  //     var mainWin = require('electron').remote.getCurrentWindow();
-  //     mainWin.webContents.executeJavaScript(data);
-  //   });
-  // }
+  const dbPath = path.resolve(__dirname, 'gtaSQLite.db');
+  let db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+  });
 
   function createWindow () {
     // Create the browser window.
@@ -31,19 +22,11 @@ const sqlite3 = require('sqlite3').verbose();
     // and load the index.html of the app.
     win.loadFile('play.html')
 
-    //read and inject javascript to set thumbnails and titles
-    // fs.readFile('injector.js', 'utf8', function(err, data) {
-    //   if (err) throw err;
-    //   win.webContents.executeJavaScript(data);
-    // });
-    // Open the DevTools.
+
     win.webContents.openDevTools()
 
     // Emitted when the window is closed.
     win.on('closed', () => {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
       win = null
     })
   }
@@ -61,6 +44,11 @@ const sqlite3 = require('sqlite3').verbose();
       app.quit()
     }
   })
+
+  app.on('quit', function() {
+  
+  });
+
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
