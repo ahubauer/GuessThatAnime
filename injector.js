@@ -12,8 +12,12 @@ let db = new sqlite3.Database(dbPath, (err) => {
   console.log('Connected to the in-memory SQlite database.');
 });
 
-//create and execute sql query
+var seriesMax = 3;
 
+function setSeriesMax(value) {
+  seriesMax = parseInt(value);
+  console.log(seriesMax);
+}
 
 
 var exclusions = "";
@@ -24,6 +28,7 @@ remote.getCurrentWindow().webContents.on('will-navigate',function(event,url) {
   seriesCount = [];
 });
 
+//create and execute sql query
 function injectScenes() {
   var sql = " SELECT anime_scenes.id, anime_scenes.anime_series_id, anime_scenes.anime_scene_file_name, anime_series.name FROM anime_scenes INNER JOIN anime_series ON anime_scenes.anime_series_id = anime_series.id  " + exclusions + " ORDER BY RANDOM() LIMIT 9";
   db.all(sql,[], function(err,result){
@@ -35,12 +40,7 @@ function injectScenes() {
       exclusions = exclusions + " AND";
     }
     for (var i = 0; i < result.length; i++) {
-      if (seriesCount[result[i].anime_series_id]) {
-        seriesCount[result[i].anime_series_id] += 1;
-      } else {
-        seriesCount[result[i].anime_series_id] = 1;
-      }
-      if (seriesCount[result[i].anime_series_id] > 3) {
+      if (seriesCount[result[i].anime_series_id] >= seriesMax) {
         replaceScene(i);
       } else {
         var thumbSrc = "./img/" + result[i].id + "_original_" + result[i].anime_scene_file_name;
@@ -51,9 +51,11 @@ function injectScenes() {
         $("#title" + i).attr("href", popupLink);
         exclusions = exclusions + " anime_scenes.id != " + result[i].id + " AND";
       }
-
-
-
+      if (seriesCount[result[i].anime_series_id]) {
+        seriesCount[result[i].anime_series_id] += 1;
+      } else {
+        seriesCount[result[i].anime_series_id] = 1;
+      }
     }
     if (exclusions.slice(-3) == "AND") {
       exclusions = exclusions.slice(0,-3);
@@ -85,7 +87,6 @@ function openScene(id,name) {
     popup.loadFile('popup.html');
     //popup.webContents.openDevTools();
     console.log(popupScreen);
-    //var js = "$('#myCanvas').css('background-image','url(" + url + ")'); $('#container').css('height'," + popupScreen.height + "); var c = document.getElementById('myCanvas'); c.width = " + w + ";c.height = " + h + ";";
     var js = "img.src = '" + url + "'; $('#container').css('height'," + popupScreen.bounds.height + "); var c = document.getElementById('myCanvas'); c.width = " + popupScreen.bounds.width + ";c.height = " + popupScreen.bounds.height + ";";
     popup.webContents.executeJavaScript(js);
   }
@@ -94,11 +95,11 @@ function openScene(id,name) {
 
   //create and execute sql query
   var sql = " SELECT anime_scenes.episode, anime_series.name FROM anime_scenes INNER JOIN anime_series ON anime_scenes.anime_series_id = anime_series.id WHERE anime_scenes.id = " + id + " ORDER BY RANDOM() LIMIT 1";
-  db.all(sql,[],(err, result) => {
+  db.all(get,[],(err, result) => {
     if (err) throw err;
 
-    $("#selectedTitle").text(result[0].name);
-    $("#selectedEpisode").text(result[0].episode);
+    $("#selectedTitle").text(result.name);
+    $("#selectedEpisode").text(result.episode);
 
   });
 
@@ -110,7 +111,7 @@ function replaceScene(index) {
   //create and execute sql query
   var sql = " SELECT anime_scenes.id, anime_scenes.anime_series_id, anime_scenes.anime_scene_file_name, anime_series.name FROM anime_scenes INNER JOIN anime_series ON anime_scenes.anime_series_id = anime_series.id " + exclusions + " ORDER BY RANDOM() LIMIT 1";
 
-  db.all(sql,[],(err, result) => {
+  db.get(sql,[],(err, result) => {
     if (err) throw err;
     //assemble HTML from query results
     if (exclusions == "") {
@@ -119,21 +120,22 @@ function replaceScene(index) {
     if (exclusions != "WHERE") {
       exclusions = exclusions + " AND";
     }
-    if (seriesCount[result[0].anime_series_id]) {
-      seriesCount[result[0].anime_series_id] += 1;
-    } else {
-      seriesCount[result[0].anime_series_id] = 1;
-    }
-    if (seriesCount[result[0].anime_series_id] > 3) {
+
+    if (seriesCount[result.anime_series_id] > seriesMax) {
       replaceScene(index);
     } else {
-      exclusions = exclusions + " anime_scenes.id != " + result[0].id + " AND";
-      var thumbSrc = "./img/" + result[0].id + "_original_" + result[0].anime_scene_file_name;
+      exclusions = exclusions + " anime_scenes.id != " + result.id + " AND";
+      var thumbSrc = "./img/" + result.id + "_original_" + result.anime_scene_file_name;
       $("#thumbPic" + index).attr("src", thumbSrc);
-      var popupLink = "javascript:openScene(" + result[0].id + ", '" + result[0].anime_scene_file_name + "'); replaceScene(" + index + ");";
+      var popupLink = "javascript:openScene(" + result.id + ", '" + result.anime_scene_file_name + "'); replaceScene(" + index + ");";
       $("#thumbLink" + index).attr("href", popupLink);
-      $("#title" + index).text(result[0].name);
+      $("#title" + index).text(result.name);
       $("#title" + index).attr("href", popupLink);
+    }
+    if (seriesCount[result.anime_series_id]) {
+      seriesCount[result.anime_series_id] += 1;
+    } else {
+      seriesCount[result.anime_series_id] = 1;
     }
     if (exclusions.slice(-3) == "AND") {
       exclusions = exclusions.slice(0,-3);
