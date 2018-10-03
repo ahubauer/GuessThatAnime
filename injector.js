@@ -95,7 +95,7 @@ function openScene(id,name) {
 
   //create and execute sql query
   var sql = " SELECT anime_scenes.episode, anime_series.name FROM anime_scenes INNER JOIN anime_series ON anime_scenes.anime_series_id = anime_series.id WHERE anime_scenes.id = " + id + " ORDER BY RANDOM() LIMIT 1";
-  db.all(get,[],(err, result) => {
+  db.get(sql,[],(err, result) => {
     if (err) throw err;
 
     $("#selectedTitle").text(result.name);

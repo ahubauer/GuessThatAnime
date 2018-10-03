@@ -8,71 +8,74 @@
   }`
 </style>
 </head>
+<body>
+  <div class="no_center">
+    <a href="list.html">Scene List</a>
+    <br>
+    Series Max:
+    <select name="selectMax" onchange="setSeriesMax(this.value)">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3" selected>3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
 
-<div class="no_center">
-  Series Max: 
-  <select name="selectMax" onchange="setSeriesMax(this.value)">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3" selected>3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-  </select>
-</div>
+  <h1>Name-That-Anime</h1>
 
-<h1>Name-That-Anime</h1>
-
-<table class="item">
-  <tbody>
-    <tr>
-      <th>Anime</th>
-      <td id="selectedTitle"></td>
-    </tr>
-    <tr>
-      <th>Episode</th>
-      <td id="selectedEpisode"></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>Next Scenes</h2>
-<div id="scene_window">
-    <table>
+  <table class="item">
     <tbody>
       <tr>
-        <td><a id="thumbLink0" href=""><img id="thumbPic0" alt="" src="" /></a></td>
-        <td><a id="thumbLink1" href=""><img id="thumbPic1" alt="" src="" /></a></td>
-        <td><a id="thumbLink2" href=""><img id="thumbPic2" alt="" src="" /></a></td>
+        <th>Anime</th>
+        <td id="selectedTitle"></td>
       </tr>
       <tr>
-        <td class="series_name"><a id="title0" href=""></a> <a href="#" onclick="replaceScene(0)">[x]</a></td>
-        <td class="series_name"><a id="title1" href=""></a> <a href="#" onclick="replaceScene(1)">[x]</a></td>
-        <td class="series_name"><a id="title2" href=""></a> <a href="#" onclick="replaceScene(2)">[x]</a></td>
-      </tr>
-      <tr>
-        <td><a id="thumbLink3" href=""><img id="thumbPic3" alt="" src="" /></a></td>
-        <td><a id="thumbLink4" href=""><img id="thumbPic4" alt="" src="" /></a></td>
-        <td><a id="thumbLink5" href=""><img id="thumbPic5" alt="" src="" /></a></td>
-      </tr>
-      <tr>
-        <td class="series_name"><a id="title3" href=""></a> <a href="#" onclick="replaceScene(3)">[x]</a></td>
-        <td class="series_name"><a id="title4" href=""></a> <a href="#" onclick="replaceScene(4)">[x]</a></td>
-        <td class="series_name"><a id="title5" href=""></a> <a href="#" onclick="replaceScene(5)">[x]</a></td>
-      </tr>
-      <tr>
-        <td><a id="thumbLink6" href=""><img id="thumbPic6" alt="" src="" /></a></td>
-        <td><a id="thumbLink7" href=""><img id="thumbPic7" alt="" src="" /></a></td>
-        <td><a id="thumbLink8" href=""><img id="thumbPic8" alt="" src="" /></a></td>
-      </tr>
-      <tr>
-        <td class="series_name"><a id="title6" href=""></a> <a href="#" onclick="replaceScene(6)">[x]</a></td>
-        <td class="series_name"><a id="title7" href=""></a> <a href="#" onclick="replaceScene(7)">[x]</a></td>
-        <td class="series_name"><a id="title8" href=""></a> <a href="#" onclick="replaceScene(8)">[x]</a></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><center><button onclick="injectScenes()">Shuffle</button></center></td>
-        <td></td>
+        <th>Episode</th>
+        <td id="selectedEpisode"></td>
       </tr>
     </tbody>
   </table>
+
+  <h2>Next Scenes</h2>
+  <div id="scene_window">
+      <table>
+      <tbody>
+        <tr>
+          <td><a id="thumbLink0" href=""><img id="thumbPic0" alt="" src="" /></a></td>
+          <td><a id="thumbLink1" href=""><img id="thumbPic1" alt="" src="" /></a></td>
+          <td><a id="thumbLink2" href=""><img id="thumbPic2" alt="" src="" /></a></td>
+        </tr>
+        <tr>
+          <td class="series_name"><a id="title0" href=""></a> <a href="#" onclick="replaceScene(0)">[x]</a></td>
+          <td class="series_name"><a id="title1" href=""></a> <a href="#" onclick="replaceScene(1)">[x]</a></td>
+          <td class="series_name"><a id="title2" href=""></a> <a href="#" onclick="replaceScene(2)">[x]</a></td>
+        </tr>
+        <tr>
+          <td><a id="thumbLink3" href=""><img id="thumbPic3" alt="" src="" /></a></td>
+          <td><a id="thumbLink4" href=""><img id="thumbPic4" alt="" src="" /></a></td>
+          <td><a id="thumbLink5" href=""><img id="thumbPic5" alt="" src="" /></a></td>
+        </tr>
+        <tr>
+          <td class="series_name"><a id="title3" href=""></a> <a href="#" onclick="replaceScene(3)">[x]</a></td>
+          <td class="series_name"><a id="title4" href=""></a> <a href="#" onclick="replaceScene(4)">[x]</a></td>
+          <td class="series_name"><a id="title5" href=""></a> <a href="#" onclick="replaceScene(5)">[x]</a></td>
+        </tr>
+        <tr>
+          <td><a id="thumbLink6" href=""><img id="thumbPic6" alt="" src="" /></a></td>
+          <td><a id="thumbLink7" href=""><img id="thumbPic7" alt="" src="" /></a></td>
+          <td><a id="thumbLink8" href=""><img id="thumbPic8" alt="" src="" /></a></td>
+        </tr>
+        <tr>
+          <td class="series_name"><a id="title6" href=""></a> <a href="#" onclick="replaceScene(6)">[x]</a></td>
+          <td class="series_name"><a id="title7" href=""></a> <a href="#" onclick="replaceScene(7)">[x]</a></td>
+          <td class="series_name"><a id="title8" href=""></a> <a href="#" onclick="replaceScene(8)">[x]</a></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><center><button onclick="injectScenes()">Shuffle</button></center></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+</body>
