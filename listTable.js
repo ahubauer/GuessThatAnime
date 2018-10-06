@@ -105,7 +105,7 @@ function searchList(text) {
 function openEntry(id) {
   let popup = new remote.BrowserWindow({width: 500, height: 500});
   popup.loadFile('listEntry.html');
-  popup.webContents.openDevTools();
+//  popup.webContents.openDevTools();
 
   var js = "setupEditor(" + id + ")";
   popup.webContents.executeJavaScript(js);

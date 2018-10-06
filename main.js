@@ -12,7 +12,7 @@ const {remote, app, BrowserWindow} = require('electron');
     win.loadFile('play.html')
 
 
-    win.webContents.openDevTools()
+    //win.webContents.openDevTools()
 
     // Emitted when the window is closed.
     win.on('closed', () => {
