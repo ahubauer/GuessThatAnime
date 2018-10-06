@@ -102,3 +102,16 @@ function cancelEdit() {
   $('#cancelButton').attr('hidden',"");
   isEditing = false;
 }
+
+function deleteScene() {
+  if (confirm('Are you sure you want to delete this scene?')) {
+    sql = "DELETE FROM anime_scenes WHERE id = " + sceneID;
+    db.run(sql,[],function(err){
+      if (err) {
+        console.log(err)
+      } else {
+        remote.getCurrentWindow().close();
+      }
+    });
+  }
+}
