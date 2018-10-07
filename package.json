@@ -4,12 +4,15 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "Aaron Hubauer",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^2.0.8"
+    "electron": "^2.0.8",
+    "electron-builder": "^20.28.4"
   },
   "dependencies": {
     "formidable": "^1.2.1",
@@ -17,5 +20,18 @@
     "mysql": "^2.16.0",
     "querystring": "^0.2.0",
     "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master"
-  }
+  },
+  "build": {
+    "appId": "com.namethatanime.app",
+    "productName": "Name-That-Anime",
+    "mac": {
+      "category": "public.app-category.games"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "extraResources": ["gtaSQLite.db"]
+  },
+  "postinstall": "electron-builder install-app-deps"
+
 }

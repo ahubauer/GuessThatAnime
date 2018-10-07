@@ -2,9 +2,9 @@ const electron = require('electron');
 const {remote, app, BrowserWindow} = require('electron');
 const $ = require('jquery');
 const path = require('path')
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3');
 
-const dbPath = path.resolve(__dirname, 'gtaSQLite.db');
+const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('/app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);
@@ -44,7 +44,7 @@ function injectScenes() {
         replaceScene(i);
       } else {
         var thumbSrc = "./img/" + result[i].id + "_original_" + result[i].anime_scene_file_name;
-        $("#thumbPic" + i).attr("src", thumbSrc);
+        $("#thumbPic" + i).attr("src", path.resolve(__dirname,thumbSrc));
         var popupLink = "javascript:openScene(" + result[i].id + ", '" + result[i].anime_scene_file_name + "'); replaceScene(" + i + ");";
         $("#thumbLink" + i).attr("href", popupLink);
         $("#title" + i).text(result[i].name);
@@ -68,6 +68,7 @@ function openScene(id,name) {
 
   var img = new Image();
   var url = "./img/" + id + "_original_" + name;
+  url = path.resolve(__dirname, url);
   img.onload = function(){
     var h = img.height;
     var w = img.width;
@@ -85,7 +86,7 @@ function openScene(id,name) {
 
 
     popup.loadFile('popup.html');
-    //popup.webContents.openDevTools();
+    popup.webContents.openDevTools();
     console.log(popupScreen);
     var js = "img.src = '" + url + "'; $('#container').css('height'," + popupScreen.bounds.height + "); var c = document.getElementById('myCanvas'); c.width = " + popupScreen.bounds.width + ";c.height = " + popupScreen.bounds.height + ";";
     popup.webContents.executeJavaScript(js);
@@ -126,7 +127,7 @@ function replaceScene(index) {
     } else {
       exclusions = exclusions + " anime_scenes.id != " + result.id + " AND";
       var thumbSrc = "./img/" + result.id + "_original_" + result.anime_scene_file_name;
-      $("#thumbPic" + index).attr("src", thumbSrc);
+      $("#thumbPic" + index).attr("src", path.resolve(__dirname,thumbSrc));
       var popupLink = "javascript:openScene(" + result.id + ", '" + result.anime_scene_file_name + "'); replaceScene(" + index + ");";
       $("#thumbLink" + index).attr("href", popupLink);
       $("#title" + index).text(result.name);

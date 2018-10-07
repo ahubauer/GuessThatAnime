@@ -5,7 +5,7 @@ const path = require('path')
 const sqlite3 = require('sqlite3').verbose();
 const qs = require('querystring');
 
-const dbPath = path.resolve(__dirname, 'gtaSQLite.db');
+const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('/app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);
@@ -21,7 +21,7 @@ function setupEditor(id) {
 
   db.get(sql,[],function(err,result){
     if (err) console.log(err);
-    $('#image').attr("src","./img/" + result.id + "_original_" + result.anime_scene_file_name);
+    $('#image').attr("src",path.resolve(__dirname, "./img/" + result.id + "_original_" + result.anime_scene_file_name));
     $('#image').width("300px");
 
     $('#series').text(result.name);
