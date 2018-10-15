@@ -4,7 +4,7 @@ const $ = require('jquery');
 const path = require('path')
 const sqlite3 = require('sqlite3');
 
-const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('/app.asar', '');
+const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('\app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);
@@ -86,9 +86,22 @@ function openScene(id,name) {
 
 
     popup.loadFile('popup.html');
-    popup.webContents.openDevTools();
+    //popup.webContents.openDevTools();
     console.log(popupScreen);
-    var js = "img.src = '" + url + "'; $('#container').css('height'," + popupScreen.bounds.height + "); var c = document.getElementById('myCanvas'); c.width = " + popupScreen.bounds.width + ";c.height = " + popupScreen.bounds.height + ";";
+
+    url = url.replace("\\", "\\\\");
+  	var split = url.split("\\");
+  	var js = "img.src = '";
+  	for (i = 0;i < split.length;i++) {
+  		js = js + split[i];
+  		if (i < split.length - 1) {
+  			js = js + "\\\\"
+  		} else {
+  			js = js + "';";
+  		}
+  	}
+  js = js + "$('#container').css('height'," + popupScreen.bounds.height + "); var c = document.getElementById('myCanvas'); c.width = " + popupScreen.bounds.width + ";c.height = " + popupScreen.bounds.height + ";";
+    //var js = "img.src = '" + url + "'; $('#container').css('height'," + popupScreen.bounds.height + "); var c = document.getElementById('myCanvas'); c.width = " + popupScreen.bounds.width + ";c.height = " + popupScreen.bounds.height + ";";
     popup.webContents.executeJavaScript(js);
   }
   img.src = url;

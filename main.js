@@ -1,4 +1,5 @@
 const {remote, app, BrowserWindow} = require('electron');
+const electron = require('electron');
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
   let win
@@ -6,13 +7,14 @@ const {remote, app, BrowserWindow} = require('electron');
 
   function createWindow () {
     // Create the browser window.
-    win = new BrowserWindow({width: 1600, height: 600})
+    var screen = electron.screen.getAllDisplays()[0];
+    win = new BrowserWindow({width: screen.bounds.width, height: screen.bounds.height});
 
     // and load the index.html of the app.
     win.loadFile('play.html')
 
 
-    win.webContents.openDevTools()
+    //win.webContents.openDevTools()
 
     // Emitted when the window is closed.
     win.on('closed', () => {

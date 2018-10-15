@@ -6,8 +6,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 0;
   }
-</style>
+    .closeButton {
+  	position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
+    }
+  </style>
+  <div class=no_center>
+  	<button class="closeButton" onclick="closePopup()">Close</button>
+  </div>
 
 <div id="container">
   <canvas id="myCanvas" class="canvas"
@@ -21,6 +31,12 @@
 <script>
   const $ = require("jquery");
   const path = require('path');
+  const {remote} = require('electron');
+
+  function closePopup() {
+	remote.getCurrentWindow().close();
+  }
+  
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
   var mDown = false;

@@ -5,7 +5,7 @@ const path = require('path')
 const sqlite3 = require('sqlite3').verbose();
 const qs = require('querystring');
 
-const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('/app.asar', '');
+const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('\app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);

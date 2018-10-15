@@ -60,6 +60,9 @@ function submit() {
         var imgFile = document.getElementById("file").files[0].path
         console.log(imgFile);
         var split = imgFile.split('/');
+        if (split.length == 1) {
+          split = imgFile.split('\\');
+        }
         var fileEnd = split[split.length - 1];
         var newFile = this.lastID + "_original_" + fileEnd;
         fs.copyFile(imgFile,"./img/" + newFile,0,function(err){

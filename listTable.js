@@ -6,7 +6,7 @@ const path = require('path')
 const sqlite3 = require('sqlite3').verbose();
 
 
-const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('/app.asar', '');
+const dbPath = path.resolve(__dirname, './gtaSQLite.db').replace('\app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);
@@ -105,7 +105,7 @@ function searchList(text) {
 function openEntry(id) {
   let popup = new remote.BrowserWindow({width: 500, height: 500});
   popup.loadFile('listEntry.html');
-  popup.webContents.openDevTools();
+  //popup.webContents.openDevTools();
 
   var js = "setupEditor(" + id + ")";
   popup.webContents.executeJavaScript(js);
