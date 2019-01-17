@@ -1,5 +1,6 @@
 const electron = require('electron');
 const {remote, app, BrowserWindow} = require('electron');
+const fs = require('fs');
 const $ = require('jquery');
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose();
@@ -14,6 +15,7 @@ let db = new sqlite3.Database(dbPath, (err) => {
 });
 
 var sceneID;
+var seriesID;
 
 function setupEditor(id) {
   sceneID = id;
@@ -21,7 +23,9 @@ function setupEditor(id) {
 
   db.get(sql,[],function(err,result){
     if (err) console.log(err);
-    $('#image').attr("src",path.resolve(__dirname, "./img/" + result.id + "_original_" + result.anime_scene_file_name));
+    seriesID = result.anime_series_id;
+
+    $('#image').attr("src",path.resolve(__dirname, "./img/" + result.id + "_original_" + result.anime_scene_file_name).replace('\app.asar', ''));
     $('#image').width("300px");
 
     $('#series').text(result.name);
@@ -52,40 +56,56 @@ function startEdit() {
 
     $('#editButton').text('Save');
     $('#cancelButton').removeAttr('hidden');
+    $('#checkboxContainer').removeAttr('hidden');
   } else {
     console.log($('#seriesInput').val());
     var seriesCheckSql = "SELECT * FROM anime_series WHERE name = '" + $('#seriesInput').val() + "' LIMIT 1";
     db.get(seriesCheckSql,[],function(err,result){
       if (err) console.log(err);
+      var checked = document.getElementById('checkbox').checked;
       if (!result) {
         var newSeriesSql = "INSERT INTO anime_series(name) VALUES ('" + $('#seriesInput').val() + "')";
         db.run(newSeriesSql,[],function(err) {
-          if (err) console.log(err);
-          var updateSql = "UPDATE anime_scenes SET anime_series_id = " + this.lastID + ", episode = '" + $('#episodeInput').val() + "' WHERE id = " + sceneID;
-          db.run(updateSql,[],function(err) {
+          var getNew = "SELECT last_insert_rowid() AS id FROM anime_series LIMIT 1";
+          db.run(getNew,[],function(err, newResult) {
             if (err) console.log(err);
-            var si = $('#seriesInput').val();
-            var ei = $('#episodeInput').val();
-            $('#series').html('');
-            $('#episode').html('');
-            $('#series').text(si);
-            $('#episode').text(ei);
-            $('#editButton').text('Edit');
-            $('#cancelButton').attr('hidden',"");
+            var setEpisode = checked ? "" : ", episode = '" + $('#episodeInput').val() + "'";
+            var whereSql = checked ? "anime_series_id = " + seriesID: "id = " + sceneID;
+            var updateSql = "UPDATE anime_scenes SET anime_series_id = " + newResult.id + setEpisode + " WHERE " + whereSql;
+            console.log(updateSql);
+            db.run(updateSql,[],function(err) {
+              if (err) console.log(err);
+              var si = $('#seriesInput').val();
+              var ei = checked ? episodeText : $('#episodeInput').val();
+              $('#series').html('');
+              $('#episode').html('');
+              $('#series').text(si);
+              $('#episode').text(ei);
+              $('#editButton').text('Edit');
+              $('#cancelButton').attr('hidden',"");
+              $('#checkboxContainer').attr('hidden',"");
+            });
           });
         });
       } else {
-        var updateSql = "UPDATE anime_scenes SET anime_series_id = " + result.id + ", episode = '" + $('#episodeInput').val() + "' WHERE id = " + sceneID;
+
+
+        var setEpisode = checked ? "" : ", episode = '" + $('#episodeInput').val() + "'";
+        var whereSql = checked ? "anime_series_id = " + seriesID: "id = " + sceneID;
+        var updateSql = "UPDATE anime_scenes SET anime_series_id = " + result.id + setEpisode + " WHERE " + whereSql;
+        console.log(updateSql);
         db.run(updateSql,[],function(err) {
           if (err) console.log(err);
           var si = $('#seriesInput').val();
-          var ei = $('#episodeInput').val();
+          var ei = checked ? episodeText : $('#episodeInput').val();
+          $('#series').html('');
           $('#series').html('');
           $('#episode').html('');
           $('#series').text(si);
           $('#episode').text(ei);
           $('#editButton').text('Edit');
           $('#cancelButton').attr('hidden',"");
+          $('#checkboxContainer').attr('hidden',"");
         });
       }
       isEditing = false;
@@ -100,11 +120,20 @@ function cancelEdit() {
   $('#episode').text(episodeText);
   $('#editButton').text('Edit');
   $('#cancelButton').attr('hidden',"");
+  $('#checkboxContainer').attr('hidden',"");
   isEditing = false;
 }
 
 function deleteScene() {
   if (confirm('Are you sure you want to delete this scene?')) {
+    imageSrc = $("#image").attr('src');
+    fs.unlink(imageSrc,function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(imageSrc + " deleted");
+      }
+    });
     sql = "DELETE FROM anime_scenes WHERE id = " + sceneID;
     db.run(sql,[],function(err){
       if (err) {

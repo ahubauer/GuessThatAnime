@@ -6,7 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 
 
-const dbPath = path.resolve(__dirname, 'gtaSQLite.db');
+const dbPath = path.resolve(__dirname, 'gtaSQLite.db').replace('\app.asar', '');
 let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     return console.error(err.message);
@@ -65,7 +65,7 @@ function submit() {
         }
         var fileEnd = split[split.length - 1];
         var newFile = this.lastID + "_original_" + fileEnd;
-        fs.copyFile(imgFile,"./img/" + newFile,0,function(err){
+        fs.copyFile(imgFile,path.resolve(__dirname, "./img/" + newFile).replace('\app.asar', ''),0,function(err){
           if (err) {
             console.log(err);
           } else {

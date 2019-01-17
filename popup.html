@@ -36,7 +36,7 @@
   function closePopup() {
 	remote.getCurrentWindow().close();
   }
-  
+
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
   var mDown = false;
@@ -50,6 +50,7 @@
   function draw(x,y) {
     if (mDown) {
       var p = ctx.transformedPoint(x,y);
+      ctx.strokeStyle = "#FF0000";
       ctx.lineTo(p.x,p.y);
       ctx.stroke();
     }
@@ -82,6 +83,13 @@
       );
 
     }
+    var lastX = c.width / 2;
+    var lastY = c.height / 2;
+    var pt = ctx.transformedPoint(lastX,lastY);
+    ctx.translate(pt.x,pt.y);
+    var startScale = c.width / img.width;
+    ctx.scale(startScale,startScale);
+    ctx.translate(-pt.x,-pt.y);
     redraw();
 
 
@@ -90,7 +98,7 @@
     var dragStart,dragged;
 
     c.addEventListener('mousedown',function(evt){
-      if (evt.shiftKey) {
+      if (evt.shiftKey || evt.button == 2) {
         document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
         lastX = evt.offsetX || (evt.pageX - c.offsetLeft);
         lastY = evt.offsetY || (evt.pageY - c.offsetTop);
@@ -100,7 +108,7 @@
     },false);
 
     c.addEventListener('mousemove',function(evt){
-      if (evt.shiftKey) {
+      if (evt.shiftKey || evt.button == 2) {
         lastX = evt.offsetX || (evt.pageX - c.offsetLeft);
         lastY = evt.offsetY || (evt.pageY - c.offsetTop);
         dragged = true;
@@ -113,7 +121,7 @@
     },false);
 
     c.addEventListener('mouseup',function(evt){
-      if (evt.shiftKey) {
+      if (evt.shiftKey || evt.button == 2) {
         dragStart = null;
       }
     },false);
